@@ -1,0 +1,156 @@
+/*
+	Main Slider Styles
+*/
+.mumf-slider {
+  margin: 0 0 10px;
+  position: relative;
+}
+
+.mumf-slider > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mumf-slider > ul:nth-child(1) {
+	display: none;
+}
+
+.mumf-slider > ul > li {
+	display: block;
+	margin: 0;
+	padding: 0;
+	display: none;
+	vertical-align: top;
+}
+
+.mumf-slider ul li > a, .mumf-slider ul li > div {	
+    width: 98%;
+    display: block;	
+    padding: 20px 0;
+}
+
+.mumf-slider ul li > a img, .mumf-slider ul li > div img {
+	margin: 0 auto;
+	display: block;
+	max-width: 95%;
+	max-height: 390px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 15px 16px -11px #000000;
+	   -moz-box-shadow: 0 15px 16px -11px #000000;
+	        box-shadow: 0 15px 16px -11px #000000;	
+}
+
+.mumf-slider > ul > li .caption {
+	text-align: center;
+}
+
+.mumf-slider .prev, .mumf-slider .next {
+ 	background-image: url("../img/nav-btns.png");
+    position: absolute;
+    top: 39%;
+    width: 35px;
+    height: 49px;
+    cursor: pointer;
+    opacity: 0.04;
+	-webkit-transition: opacity 0.3s ease-in;
+	   -moz-transition: opacity 0.3s ease-in;
+	     -o-transition: opacity 0.3s ease-in;
+	        transition: opacity 0.3s ease-in;    
+}
+
+.mumf-slider:hover .prev, .mumf-slider:hover .next {
+	opacity: 1;
+}
+
+.mumf-slider .prev {
+	left: 0px;
+} 
+
+.mumf-slider .next {
+	right: 0px;
+	background-position: 35px 0px;
+}
+
+.mumf-slider .prev:hover {
+	background-position: 0px 49px;
+}
+
+.mumf-slider .next:hover {
+	background-position: 35px 49px;
+}
+
+.mumf-slider .prev:active, .mumf-slider .next:active {
+	opacity: 0.3;
+}
+
+.mumf-slider p {
+	white-space: normal;
+}
+
+/* Used for finding the actual size of an element. */
+.temp-show { 
+	position:absolute !important;
+	visibility:hidden !important; 
+	display:block !important;
+}
+
+
+/*
+	Thumbnail Styles
+*/
+.mumf-slider .thumbnails {
+	text-align: center;
+}
+
+.mumf-slider .thumbnails > ul {
+	padding: 0;
+}
+
+.mumf-slider .thumbnails > ul > li {
+	display: inline-block;	
+	padding: 0 5px;
+	cursor: pointer;
+}
+
+.mumf-slider .thumbnails > ul > li.default {
+	height: 20px;
+}	
+
+.mumf-slider .thumbnails > ul > li.active img {
+	opacity: 1;
+	box-shadow: 1px 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mumf-slider .thumbnails > ul > li img {
+	width: 100%;
+	border-radius: 6px;	
+	opacity: 0.33;	
+	border: none;
+	-webkit-transition: opacity 0.3s ease-in, box-shadow 0.3s ease-in;
+	   -moz-transition: opacity 0.3s ease-in, box-shadow 0.3s ease-in;
+	     -o-transition: opacity 0.3s ease-in, box-shadow 0.3s ease-in;
+	        transition: opacity 0.3s ease-in, box-shadow 0.3s ease-in;   	
+}
+
+.mumf-slider .thumbnails > ul > li > img:hover {
+	opacity: 1;
+}
+
+.mumf-slider .thumbnails > ul > li span.nav-pill {
+	display: block;
+	height: 8px;
+	width: 8px;
+	border-radius: 25px;
+	background-color: rgba(0, 0, 0, 0.6);	
+	cursor: pointer;
+	box-shadow: 0 1px 1px -1px rgba(250, 250, 250, 0.62);
+	-webkit-transition: background-color 0.3s ease-in;
+	   -moz-transition: background-color 0.3s ease-in;
+	     -o-transition: background-color 0.3s ease-in;
+	        transition: background-color 0.3s ease-in;
+}
+
+.mumf-slider .thumbnails > ul > li.active span.nav-pill {
+  	background-color: #fff;
+}
