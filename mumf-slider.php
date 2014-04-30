@@ -22,7 +22,7 @@
 
 
 		// Get the styles.
-		wp_register_style('mumf-slider-styles', plugins_url('assets/mumf-slider/themes/gayles/css/styles.css', __FILE__ ));
+		wp_register_style('mumf-slider-styles', plugins_url('assets/mumf-slider/themes/default/css/styles.css', __FILE__ ));
 		wp_enqueue_style('mumf-slider-styles');
 		
 	}
