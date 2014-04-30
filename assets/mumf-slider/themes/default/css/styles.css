@@ -122,7 +122,7 @@
 	box-shadow: 1px 5px 20px rgba(0, 0, 0, 0.5);
 }
 
-.mumf-slider .thumbnails > ul > li img {
+.mumf-slider .thumbnails > ul > li > img {
 	width: 100%;
 	border-radius: 6px;	
 	opacity: 0.33;	
@@ -154,3 +154,17 @@
 .mumf-slider .thumbnails > ul > li.active span.nav-pill {
   	background-color: #fff;
 }
+
+/* Absolute Slides */
+.concurrent-fade {
+	position: relative;
+}
+
+.concurrent-fade li.slide {
+    position:absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
