@@ -50,6 +50,7 @@
 	    $aArgs = array(
 	        'description' => 'Slider Post Type',
 	        'show_ui' => true,
+	        'menu_icon' => 'dashicons-slides',
 	        'menu_position' => 4,
 	        'exclude_from_search' => true,
 	        'labels' => array(
