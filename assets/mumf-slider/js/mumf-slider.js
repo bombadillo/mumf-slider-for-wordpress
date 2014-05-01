@@ -42,10 +42,7 @@
             elem.mumfSlider.nextSlide = elem.find('li.active').length > 0 ? elem.find('li.active') : elem.find('li:first');
 
             // Call function to transition slide.
-            $.fn.mumfSlider.transitionSlide(elem); 
-
-            // Set loaded status to true.
-            elem.mumfSlider.loaded = true;              
+            $.fn.mumfSlider.transitionSlide(elem);          
 
         });     
 
@@ -295,6 +292,7 @@
             case 'fade-concurrent': 
                 // Call function to fade next slide concurrently.
                 $.fn.mumfSlider.fadeNextSlideConcurrent(slider);
+                break;
             case 'slide':
                 // Call function to fade next slide.
                 $.fn.mumfSlider.slideNextSlide(slider);
@@ -357,19 +355,25 @@
 
         // If there's a current active.
         if (slider.mumfSlider.loaded) {
+
             // Fade out the current active slide.
             currentActive.fadeOut(slider.mumfSlider.transitionSpeed);
+
             // Fade in the slide and add active class.
             slider.mumfSlider.nextSlide.fadeIn(slider.mumfSlider.transitionSpeed)
                             .addClass('active');  
             // Call function to resize slider container.
-            $.fn.mumfSlider.resizeSliderContainerFadeConcurrent(slider);                                              
+
+            $.fn.mumfSlider.resizeSliderContainer(slider);                                                                            
         } else {
+
             // Fade in the slide and add active class.
             slider.mumfSlider.nextSlide.css('display', 'block')
                              .addClass('active');
-            // Call function to resize slider container.
-            $.fn.mumfSlider.resizeSliderContainerFadeConcurrent(slider);                                 
+                
+                // Set to loaded since this is the last operation to be performed on slider.
+                slider.mumfSlider.loaded = true;
+                      
         }
         // END if.
         
@@ -449,28 +453,6 @@
         // Animate the slider container to the height.
         slider.find('ul:first').animate({height: height +'px'});
     };
-
-    /* Name      resizeSliderContainerFadeConcurrent
-     * Purpose   To resize the slider container to the new slide height for sliders with fade-concurrent transtion.
-     * Params    slider    The slider to change the height of.
-    */ 
-    $.fn.mumfSlider.resizeSliderContainerFadeConcurrent = function (slider) {        
-        // If the slider has not loaded.
-        if (!slider.mumfSlider.loaded)
-        {        
-            // Fade in the element.
-            slider.find('ul:first').css('display', 'block');
-            // Get the height of the current slide.
-            var height = slider.find('ul:first li.active').height();              
-            // Animate the slider container to the height.
-            slider.find('ul:first').css('height', height +'px');                 
-        } else {
-            // Get the height of the current slide.
-            var height = slider.find('ul:first li.active').height();  
-            // Animate the slider container to the height.
-            slider.find('ul:first').animate({height: height +'px'}); 
-        }
-    };     
 
     /* Name      actualHeight
      * Purpose   To get the actual height of an element.
