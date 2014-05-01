@@ -363,16 +363,17 @@
             slider.mumfSlider.nextSlide.fadeIn(slider.mumfSlider.transitionSpeed)
                             .addClass('active');  
             // Call function to resize slider container.
-
             $.fn.mumfSlider.resizeSliderContainer(slider);                                                                            
         } else {
 
             // Fade in the slide and add active class.
-            slider.mumfSlider.nextSlide.css('display', 'block')
-                             .addClass('active');
-                
-                // Set to loaded since this is the last operation to be performed on slider.
-                slider.mumfSlider.loaded = true;
+            slider.mumfSlider.nextSlide.addClass('active');
+
+            // Set a timeout to ensure all elements have been sized.
+            setTimeout(function () {
+                // Call function to resize slider container.
+                $.fn.mumfSlider.resizeSliderContainer(slider); 
+            }, 500);            
                       
         }
         // END if.
@@ -452,6 +453,8 @@
         var height = slider.find('ul:first li.active').height();
         // Animate the slider container to the height.
         slider.find('ul:first').animate({height: height +'px'});
+
+        slider.loaded = true;
     };
 
     /* Name      actualHeight
