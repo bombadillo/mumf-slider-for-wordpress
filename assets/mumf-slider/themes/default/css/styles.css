@@ -25,6 +25,10 @@
 	vertical-align: top;
 }
 
+.mumf-slider > ul > li.active {
+	display: block;
+}
+
 .mumf-slider ul li > a, .mumf-slider ul li > div {	
     width: 98%;
     display: block;	
