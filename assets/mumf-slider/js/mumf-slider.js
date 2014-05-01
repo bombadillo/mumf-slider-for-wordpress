@@ -358,7 +358,7 @@
 
             // Fade out the current active slide.
             currentActive.fadeOut(slider.mumfSlider.transitionSpeed);
-
+console.log(slider.mumfSlider.transitionSpeed)
             // Fade in the slide and add active class.
             slider.mumfSlider.nextSlide.fadeIn(slider.mumfSlider.transitionSpeed)
                             .addClass('active');  
@@ -454,7 +454,7 @@
         // Animate the slider container to the height.
         slider.find('ul:first').animate({height: height +'px'});
 
-        slider.loaded = true;
+        slider.mumfSlider.loaded = true;
     };
 
     /* Name      actualHeight
