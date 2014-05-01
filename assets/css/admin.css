@@ -1,0 +1,20 @@
+.form-table.mumf-slider td {
+	padding: 15px 0;
+}
+
+.form-table.mumf-slider input {
+	width: 98%;
+}
+
+/* Hide these */
+#titlediv {
+	margin-bottom: 10px;
+}
+
+#edit-slug-box {
+	display: none;
+}
+
+#woothemes-settings {
+	display: none;
+}
