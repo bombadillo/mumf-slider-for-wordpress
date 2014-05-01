@@ -459,9 +459,9 @@
         if (!slider.mumfSlider.loaded)
         {        
             // Fade in the element.
-            slider.find('ul:first').show();
+            slider.find('ul:first').css('display', 'block');
             // Get the height of the current slide.
-            var height = slider.find('ul:first li.active').height();                
+            var height = slider.find('ul:first li.active').height();              
             // Animate the slider container to the height.
             slider.find('ul:first').css('height', height +'px');                 
         } else {
