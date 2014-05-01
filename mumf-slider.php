@@ -16,13 +16,12 @@
 		wp_register_script( 'mumf-slider-script', plugins_url( 'assets/mumf-slider/js/mumf-slider.js', __FILE__ ));
 		// Get the script to initiate sliders. 
 		wp_register_script( 'mumf-slider-start-script', plugins_url( 'assets/js/start-slider.js', __FILE__ ));
-
 		wp_enqueue_script('mumf-slider-script');
 		wp_enqueue_script('mumf-slider-start-script');		
 
 
 		// Get the styles.
-		wp_register_style('mumf-slider-styles', plugins_url('assets/mumf-slider/themes/default/css/styles.css', __FILE__ ));
+		wp_register_style('mumf-slider-styles', plugins_url('assets/mumf-slider/themes/gayles/css/styles.css', __FILE__ ));
 		wp_enqueue_style('mumf-slider-styles');
 		
 	}
@@ -97,32 +96,47 @@
 	    
 	    $html .= '';
 	    $html .= "
-	                <table class=\"form-table\">
-	                <tbody>
+	                <table class=\"form-table mumf-slider\">
+	                <tbody>	 
+	                <tr>              
+	                <td><label for=\"Upload Images\">Slide 1</label></td>	                
+	                </tr>
 	                <tr>
-	                <th><label for=\"Upload Images\">Slide 1</label></th>
-	                <td><input type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[0]->image . "\" placeholder=\"The image url\" /></td>
+	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[0]->image . "\" placeholder=\"The image url\" /></td>	                
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[0]->link . "\" placeholder=\"The link url\" /></td>
+	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
 	                <tr>
-	                <th><label for=\"Upload Images\">Slide 2</label></th>
-	                <td><input type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[1]->image . "\" placeholder=\"The image url\" /></td>
+	                <td><label for=\"Upload Images\">Slide 2</label></td>
+	                </tr>
+	                <tr>
+	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[1]->image . "\" placeholder=\"The image url\" /></td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[1]->link . "\" placeholder=\"The link url\" /></td>
+	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
 	                <tr>
-	                <th><label for=\"Upload Images\">Slide 3</label></th>
-	                <td><input type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[2]->image . "\" placeholder=\"The image url\" /></td>
+	                <td><label for=\"Upload Images\">Slide 3</label></td>
+	                </tr>
+	                <tr>
+	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[2]->image . "\" placeholder=\"The image url\" /></td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[2]->link . "\" placeholder=\"The link url\" /></td>
+	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
 	                <tr>
-	                <th><label for=\"Upload Images\">Slide 4</label></th>
-	                <td><input type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[3]->image . "\" placeholder=\"The image url\" /></td>
+	                <td><label for=\"Upload Images\">Slide 4</label></td>
+	                </tr>
+	                <tr>
+	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[3]->image . "\" placeholder=\"The image url\" /></td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[3]->link . "\" placeholder=\"The link url\" /></td>
+	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
 	                <tr>
-	                <th><label for=\"Upload Images\">Slide 5</label></th>
-	                <td><input type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[4]->image . "\" placeholder=\"The image url\" /></td>
+	                <td><label for=\"Upload Images\">Slide 5</label></td>
+	                </tr>
+	                <tr>
+	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[4]->image . "\" placeholder=\"The image url\" /></td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[4]->link . "\" placeholder=\"The link url\" /></td>
+	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
 	                </tbody>
 	                </table>
@@ -145,8 +159,6 @@
 	    // Set value depending on $iFeatured value.
 	    $sChecked = $iFeatured == 1 ? 'checked="checked"' : '';
 
-	    
-	    $html .= '';
 	    $html .= "  
 	                <table class=\"form-table\">
 	                <tbody>
@@ -297,9 +309,9 @@
 
 		// Loop each of the images.
 		foreach ($gallery_images as $gal_img) 
-		{
+		{			
 			// If the image is not an empty string.
-			if($gal_img != ""){
+			if($gal_img->image != ""){
 
 				$html .= '<li class="slide">';
 
@@ -308,7 +320,7 @@
 
 				$html .= "<img alt=\"\" src=\"".$gal_img->image."\" />";
                 $html .= ($gal_img->link != '') ? '</a>' : '</div>';
-                 $html .= '</li>'; 					
+                $html .= '</li>'; 					
 			}
 			// END if.
 		}  
@@ -325,7 +337,7 @@
 		// Loop each of the images.
 		foreach ($gallery_images as $gal_img) {
 			// If the image is not an empty string.
-			if($gal_img != ""){
+			if($gal_img->image != ""){
 
 				$html .= '<li>
                         	<div>';
@@ -378,12 +390,19 @@
 	    if( 'mumf_slider' != $post->post_type || 'post.php' != $hook )
 	        return;
 
+		// Get the styles.
+		wp_register_style('mumf-slider-admin-styles', plugins_url('/assets/css/admin.css', __FILE__ ));
+		wp_enqueue_style('mumf-slider-admin-styles');
+
 	    // Register script to handle admin section.
 		wp_register_script( 'mumf-slider-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ));
 		// Load script.
 		wp_enqueue_script('mumf-slider-admin-script');	 
+		// Load media scripts/styles.
+		wp_enqueue_media();		
 	}
 	/**************************************************************/
+
 
 	// Call function when admin page is loading scripts.
 	add_action('admin_enqueue_scripts', 'mumf_slider_load_admin_scripts');

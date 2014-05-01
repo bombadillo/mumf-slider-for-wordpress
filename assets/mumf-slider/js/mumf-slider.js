@@ -2,10 +2,10 @@
 
     $.fn.mumfSlider = function (options) {
 
-		// Iterate each slider.
-		return this.each(function() {
-			// Get the current element.
-			var elem = $( this );	
+        // Iterate each slider.
+        return this.each(function() {
+            // Get the current element.
+            var elem = $( this );   
 
             // Extend our default options with those provided.
             // Note that the first argument to extend is an empty
@@ -26,17 +26,17 @@
             }
             // END if.
 
-			// Add next/prev buttons if navigation is on.
-			if (elem.mumfSlider.showNavigation) $.fn.mumfSlider.addNavButtons(elem);            
+            // Add next/prev buttons if navigation is on.
+            if (elem.mumfSlider.showNavigation) $.fn.mumfSlider.addNavButtons(elem);            
 
             // Setup slides depending on transition type.
-            $.fn.mumfSlider.setupSlideType(elem);			
+            $.fn.mumfSlider.setupSlideType(elem);           
 
-		    // If autoRotate is set to true, call function to rotate slider.
-		    if (elem.mumfSlider.autoRotate) $.fn.mumfSlider.autoRotate(elem);	
+            // If autoRotate is set to true, call function to rotate slider.
+            if (elem.mumfSlider.autoRotate) $.fn.mumfSlider.autoRotate(elem);   
 
-		    // Call function to add event listeners.	    
-		    $.fn.mumfSlider.addEventListeners(elem);        
+            // Call function to add event listeners.        
+            $.fn.mumfSlider.addEventListeners(elem);        
 
             // Set to the first slide.
             elem.mumfSlider.nextSlide = elem.find('li.active').length > 0 ? elem.find('li.active') : elem.find('li:first');
@@ -47,7 +47,7 @@
             // Set loaded status to true.
             elem.mumfSlider.loaded = true;              
 
-		});	    
+        });     
 
     };
 
@@ -55,10 +55,10 @@
      * Purpose   Adds navigation buttons to the slider.
      * Params    slider      The slider to change the slide for.     
     */   
-	$.fn.mumfSlider.addNavButtons = function (slider) {
-		// Append next/prev buttons to slider.
-		slider.append(slider.mumfSlider.navButtonsHtml);
-	};
+    $.fn.mumfSlider.addNavButtons = function (slider) {
+        // Append next/prev buttons to slider.
+        slider.append(slider.mumfSlider.navButtonsHtml);
+    };
 
     /* Name      addDefaultThumbnails
      * Purpose   Adds default thumbnail buttons to the slider.
@@ -85,14 +85,14 @@
      * Purpose   Adds event listeners to the slider.
      * Params    slider      The slider to change the slide for.     
     */   
-	$.fn.mumfSlider.addEventListeners = function (slider) {
-		// Add listener for direction button click.
-		slider.on('click', '.direction', function() {
-			// Get the direction.
-			var direction = $(this).data('direction');
-			// Call function to change slide.
-			$.fn.mumfSlider.changeSlide(slider, direction);
-		});
+    $.fn.mumfSlider.addEventListeners = function (slider) {
+        // Add listener for direction button click.
+        slider.on('click', '.direction', function() {
+            // Get the direction.
+            var direction = $(this).data('direction');
+            // Call function to change slide.
+            $.fn.mumfSlider.changeSlide(slider, direction);
+        });
 
         // Add listener for thumbnail click.
         slider.on('click', '.thumbnails li', function () {
@@ -127,7 +127,7 @@
             }, 100);
         });
 
-	};
+    };
 
     /* Name      resizeDelay
      * Purpose   Performs function which passes back a ms time.     
@@ -214,18 +214,18 @@
      * Params    slider      The slider to change the slide for.     
     */          
     $.fn.mumfSlider.autoRotate = function (slider) {
-    	// Set an interval.
-    	slider.autoRotateInterval = setInterval(function() {
-			// Call function to change slide.
-			$.fn.mumfSlider.changeSlide(slider, 'next', true);    		
-    	}, slider.mumfSlider.rotateDelay);
+        // Set an interval.
+        slider.autoRotateInterval = setInterval(function() {
+            // Call function to change slide.
+            $.fn.mumfSlider.changeSlide(slider, 'next', true);          
+        }, slider.mumfSlider.rotateDelay);
 
     };
 
     /* Name      changeSlide
      * Purpose   To change the slide depending on the direction.
      * Params    slider       The slider to change the slide for.
-     *     		 direction    The direction to determine which slide to transition to.
+     *           direction    The direction to determine which slide to transition to.
      *           isAutoRotate Boolean of wheter is is an auto rotate change or not.
     */ 
     $.fn.mumfSlider.changeSlide = function (slider, direction, isAutoRotate) {
@@ -236,40 +236,40 @@
             if (slider.is(':hover')) return false; 
         }
 
-    	// Get the current slide.
-    	var currentSlide = slider.find('ul:first li.active');
+        // Get the current slide.
+        var currentSlide = slider.find('ul:first li.active');
 
         // Set global variables to defaults.                        
         slider.mumfSlider.isFirstSlide = false;
         slider.mumfSlider.isLastSlide = false;
 
-    	// If there is no current slide.
-    	if (!currentSlide.length) {
-    		// Set to the first slide.
-    		slider.mumfSlider.nextSlide = slider.find('ul:first li:first');
-    	}
-    	// Otherwise there is a slide.
-    	else {    	
-			// Set the next slide to transtion to.
-			slider.mumfSlider.nextSlide = direction === 'previous' ? currentSlide.prev() : currentSlide.next();    	
+        // If there is no current slide.
+        if (!currentSlide.length) {
+            // Set to the first slide.
+            slider.mumfSlider.nextSlide = slider.find('ul:first li:first');
+        }
+        // Otherwise there is a slide.
+        else {      
+            // Set the next slide to transtion to.
+            slider.mumfSlider.nextSlide = direction === 'previous' ? currentSlide.prev() : currentSlide.next();     
 
-			// If there is no next.
-			if (direction === 'next' && !slider.mumfSlider.nextSlide.length) {
-				// Set to the first slide.
-				slider.mumfSlider.nextSlide = slider.find('ul:first li:first');
+            // If there is no next.
+            if (direction === 'next' && !slider.mumfSlider.nextSlide.length) {
+                // Set to the first slide.
+                slider.mumfSlider.nextSlide = slider.find('ul:first li:first');
                 // Set global variable.
                 slider.mumfSlider.isFirstSlide = true;
-			}
-			// If there's no previous.
-			if (direction === 'previous' && !slider.mumfSlider.nextSlide.length) {
-				// Set to the first slide.
-				slider.mumfSlider.nextSlide = slider.find('ul:first li:last');
+            }
+            // If there's no previous.
+            if (direction === 'previous' && !slider.mumfSlider.nextSlide.length) {
+                // Set to the first slide.
+                slider.mumfSlider.nextSlide = slider.find('ul:first li:last');
                 // Set global variable.
                 slider.mumfSlider.isLastSlide = true;
-			}
-			// END if.    		
-    	}
-    	// END if current slide.
+            }
+            // END if.          
+        }
+        // END if current slide.
 
         // Call function to transition slide.
         $.fn.mumfSlider.transitionSlide(slider);
@@ -311,14 +311,14 @@
      * Params    slider      The slider to change the slide for.
     */ 
     $.fn.mumfSlider.fadeNextSlide = function (slider) {
-    	// Get the current active.
-    	var currentActive = slider.find('ul:first li.active');
+        // Get the current active.
+        var currentActive = slider.find('ul:first li.active');
 
         // Set the height of the container to the current height.
         slider.find('ul:first').height(slider.find('li.active').height() +'px');
 
-    	// Remove all instances of active class.
-    	slider.find('li.active').removeClass('active');
+        // Remove all instances of active class.
+        slider.find('li.active').removeClass('active');
 
         // If there's a current active.
         if (slider.mumfSlider.loaded) {
@@ -363,13 +363,13 @@
             slider.mumfSlider.nextSlide.fadeIn(slider.mumfSlider.transitionSpeed)
                             .addClass('active');  
             // Call function to resize slider container.
-            $.fn.mumfSlider.resizeSliderContainer(slider);                                              
+            $.fn.mumfSlider.resizeSliderContainerFadeConcurrent(slider);                                              
         } else {
             // Fade in the slide and add active class.
             slider.mumfSlider.nextSlide.css('display', 'block')
                              .addClass('active');
             // Call function to resize slider container.
-            $.fn.mumfSlider.resizeSliderContainer(slider);                                 
+            $.fn.mumfSlider.resizeSliderContainerFadeConcurrent(slider);                                 
         }
         // END if.
         
@@ -431,63 +431,80 @@
         thumb.addClass('active');
     };
 
-    $.fn.mumfSlider.resizeSliderContainer = function (slider) {
 
+    /* Name      resizeSliderContainer
+     * Purpose   To resize the slider container to the new slide height.
+     * Params    slider    The slider to change the height of.
+    */ 
+    $.fn.mumfSlider.resizeSliderContainer = function (slider) {
         // If the slider has not loaded.
-        if (!slider.mumfSlider.loaded && slider.mumfSlider.transition !== 'fade-concurrent') {
+        if (!slider.mumfSlider.loaded)
+        {
             // Slide down the element.
-            slider.find('ul:first').slideDown(200, function () {
-                // Get the height of the current slide.
-                var height = slider.find('ul:first li.active').height();
-                // Animate the slider container to the height.
-                slider.find('ul:first').animate({height: height +'px'});                
-            });
-        // Otherwise if transition is fade-concurrent and the slider has not loaded.
-        } else if (slider.mumfSlider.transition === 'fade-concurrent' && !slider.mumfSlider.loaded) {
-            // Fade in the element.
-            slider.find('ul:first').fadeIn(200, function () {
-                // Get the height of the current slide.
-                var height = slider.find('ul:first li.active').height();
-                // Animate the slider container to the height.
-                slider.find('ul:first').css({height: height +'px'});                
-            }); 
+            slider.find('ul:first').slideDown(200);
         }
 
+        // Get the height of the current slide.
+        var height = slider.find('ul:first li.active').height();
+        // Animate the slider container to the height.
+        slider.find('ul:first').animate({height: height +'px'});
     };
+
+    /* Name      resizeSliderContainerFadeConcurrent
+     * Purpose   To resize the slider container to the new slide height for sliders with fade-concurrent transtion.
+     * Params    slider    The slider to change the height of.
+    */ 
+    $.fn.mumfSlider.resizeSliderContainerFadeConcurrent = function (slider) {        
+        // If the slider has not loaded.
+        if (!slider.mumfSlider.loaded)
+        {        
+            // Fade in the element.
+            slider.find('ul:first').show();
+            // Get the height of the current slide.
+            var height = slider.find('ul:first li.active').height();                
+            // Animate the slider container to the height.
+            slider.find('ul:first').css('height', height +'px');                 
+        } else {
+            // Get the height of the current slide.
+            var height = slider.find('ul:first li.active').height();  
+            // Animate the slider container to the height.
+            slider.find('ul:first').animate({height: height +'px'}); 
+        }
+    };     
 
     /* Name      actualHeight
      * Purpose   To get the actual height of an element.
      * Params    element    The element to find the height of.
     */ 
-  	$.fn.mumfSlider.actualHeight = function (element) {
-		// find the closest visible parent and get it's hidden children
-		var visibleParent = element.closest(':visible').children(),
-			thisHeight;
+    $.fn.mumfSlider.actualHeight = function (element) {
+        // find the closest visible parent and get it's hidden children
+        var visibleParent = element.closest(':visible').children(),
+            thisHeight;
 
-		// set a temporary class on the hidden parent of the element
-		visibleParent.addClass('temp-show');
+        // set a temporary class on the hidden parent of the element
+        visibleParent.addClass('temp-show');
 
-		// get the height
-		thisHeight = element.width();
+        // get the height
+        thisHeight = element.width();
 
-		// remove the temporary class
-		visibleParent.removeClass('temp-show');
+        // remove the temporary class
+        visibleParent.removeClass('temp-show');
 
-		return thisHeight;
- 	 };    
+        return thisHeight;
+     };    
 
-	// Plugin defaults – added as a property on our plugin function.
-	$.fn.mumfSlider.defaults = {
-		theme: 'default',
-		transition: 'fade',
+    // Plugin defaults – added as a property on our plugin function.
+    $.fn.mumfSlider.defaults = {
+        theme: 'default',
+        transition: 'fade',
         transitionSpeed: 500,
-		autoRotate: true,
-		rotateDelay: 4000,
+        autoRotate: true,
+        rotateDelay: 4000,
         showNavigation: true,
         navButtonsHtml: '<div class="next direction" data-direction="next"></div><div class="prev direction" data-direction="previous"></div>',
         navigationThumbnails: true,
         pauseOnHover: true     
-	};    
+    };    
 
 
 }(jQuery));
