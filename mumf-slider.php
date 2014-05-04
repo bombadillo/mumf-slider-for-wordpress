@@ -297,7 +297,12 @@
 		
 		// Get the images from the post meta data using the id.
 		$gallery_images = get_post_meta($id, "_mumf_gallery_images", true);
-		
+
+		if (!isset($id)) 
+		{
+			return;
+		}
+
 		// Decode the JSON into an array if it is not an empty string.
 		$gallery_images = ($gallery_images != '') ? json_decode($gallery_images) : array();
 
