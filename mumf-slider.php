@@ -392,7 +392,7 @@
 		// Get global variable.
 		global $post;
 
-	    if( 'mumf_slider' != $post->post_type || 'post.php' != $hook )
+	    if( 'mumf_slider' != $post->post_type || !preg_match('/post-new.php|post.php/', $hook) )
 	        return;
 
 		// Get the styles.
