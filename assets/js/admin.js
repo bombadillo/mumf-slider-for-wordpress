@@ -22,6 +22,8 @@
  
         //If the uploader object has already been created, reopen the dialog.
         if (custom_uploader) {
+            // Remove any previous listeners.
+            custom_uploader.off('select');
 	        // This function needs updated to use new imageInput.
 	        custom_uploader.on('select', function() {
 	            attachment = custom_uploader.state().get('selection').first().toJSON();
