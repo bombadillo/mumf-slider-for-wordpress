@@ -6,6 +6,10 @@
 	width: 98%;
 }
 
+.ghost {
+	display: none;
+}
+
 /* Hide these */
 #titlediv {
 	margin-bottom: 10px;

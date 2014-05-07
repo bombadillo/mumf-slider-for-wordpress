@@ -10,18 +10,39 @@
 	*/
 
 	// Initiate the plugin (get the script, styles, etc).
-	function mumf_slider_initiate () {
+	function mumf_slider_initiate ($aSliderOptions) {
 
-		// Get the script. 
+		// Output some JavaScript so that we can define a global variable to hold our slider options.
+		?>
+
+		<script> mumfSliderOptions = {}; </script>
+
+		<?php
+
+		// Loop the slider options array.
+		foreach ($aSliderOptions as $key => $value) 
+		{
+			?>
+
+			<script> mumfSliderOptions.<?php echo $key ?> = <?php echo json_encode($value); ?></script>
+
+			<?php
+		}
+		// END loop.
+
+		// Register the plugin script. 
 		wp_register_script( 'mumf-slider-script', plugins_url( 'assets/mumf-slider/js/mumf-slider.js', __FILE__ ));
-		// Get the script to initiate sliders. 
+		// Register the script to initiate sliders. 
 		wp_register_script( 'mumf-slider-start-script', plugins_url( 'assets/js/start-slider.js', __FILE__ ));
+
+		// Get the script.
 		wp_enqueue_script('mumf-slider-script');
+		// Get the script.
 		wp_enqueue_script('mumf-slider-start-script');		
 
 
-		// Get the styles.
-		wp_register_style('mumf-slider-styles', plugins_url('assets/mumf-slider/themes/gayles/css/styles.css', __FILE__ ));
+		// Register the style.
+		wp_register_style('mumf-slider-styles', plugins_url('assets/mumf-slider/themes/default/css/styles.css', __FILE__ ));
 		wp_enqueue_style('mumf-slider-styles');
 		
 	}
@@ -175,6 +196,70 @@
 	}
 	/**************************************************************/	
 
+	// Display the slider options form.
+	function mumf_view_slider_slider_options()
+	{
+		// Get global variable.
+	    global $post;
+	    
+	    // Get the featured slider value from the post data, convert from JSON into object.
+	    $aOptions = json_decode(get_post_meta($post->ID, "_mumf_gallery_options", true));
+
+		// Determine whether autoRotate checkbox should be checked.
+		$sRotateChecked = $aOptions->autoRotate == 1 ? 'checked="checked"' : '';
+		// Determine whether showNavigation checkbox should be checked.
+		$sNavigationChecked = $aOptions->showNavigation == 1 ? 'checked="checked"' : '';
+		// Determine whether navigationThumbnails checkbox should be checked.
+		$sNavigationThumbnailChecked = $aOptions->navigationThumbnails == 1 ? 'checked="checked"' : '';		
+		// Determine whether pauseOnHover checkbox should be checked.
+		$sPauseOnHoverChecked = $aOptions->pauseOnHover == 1 ? 'checked="checked"' : '';						
+
+	    $html .= "  
+	                <table class=\"form-table\">
+	                <tbody>
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-transition\">Transition Type</label></td>
+	                <td>
+	                	<select id=\"mumf-slider-gallery-transition\" name=\"gallery_transition\" >
+							<option value=\"slide\" ". (($aOptions->transition == 'slide') ? 'selected' : '') .">Slide</option>
+							<option value=\"fade\" ". (($aOptions->transition == 'fade') ? 'selected' : '') .">Fade</option>
+							<option value=\"fade-concurrent\" ". (($aOptions->transition == 'fade-concurrent')? 'selected' : '') .">Fade concurrent</option>
+	                	</select>
+	                </td>
+	                </tr>
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-transition-speed\">Slide Transition Speed (in seconds)</label></td>
+	                <td><input id=\"mumf-slider-gallery-transition-speed\" type=\"text\" name=\"gallery_transition_speed\" value=\"". $aOptions->transitionSpeed / 1000 ."\" /></td>
+	                </tr>
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-auto-rotate\">Auto Rotate Slides</label></td>
+	                <td><input id=\"mumf-slider-gallery-auto-rotate\" type=\"checkbox\" name=\"gallery_auto_rotate\" value=\"". $aOptions->autoRotate ."\" ". $sRotateChecked ." /></td>
+	                </tr>	     
+	                <tr class=\"". (($aOptions->autoRotate) ? '' : 'ghost') ."\">
+	                <td><label for=\"mumf-slider-gallery-rotate-delay\">Slide Rotate Delay (in seconds)</label></td>
+	                <td><input id=\"mumf-slider-gallery-rotate-delay\" type=\"text\" name=\"gallery_rotate_delay\" value=\"". $aOptions->rotateDelay / 1000 ."\" /></td>
+	                </tr>	  
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-show-navigation\">Show Slide Navigation</label></td>
+	                <td><input id=\"mumf-slider-gallery-show-navigation\" type=\"checkbox\" name=\"gallery_show_navigation\" value=\"". $aOptions->showNavigation ."\" ". $sNavigationChecked ." /></td>
+	                </tr>	 	
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-navigation-thumbnails\">Show Navigation Thumbnails</label></td>
+	                <td><input id=\"mumf-slider-gallery-navigation-thumbnails\" type=\"checkbox\" name=\"gallery_navigation_thumbnails\" value=\"". $aOptions->navigationThumbnails ."\" ". $sNavigationThumbnailChecked ." /></td>
+	                </tr>	
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-hover-pause\">Pause Rotation on Mouse Hover</label></td>
+	                <td><input id=\"mumf-slider-gallery-hover-pause\" type=\"checkbox\" name=\"gallery_hover_pause\" value=\"". $aOptions->pauseOnHover ."\" ". $sPauseOnHoverChecked ." /></td>
+	                </tr>		                	                                                         	                
+	                </tbody>
+	                </table>
+	    ";
+
+	    echo $html;
+	    
+	}
+	/**************************************************************/	
+
 	// Display a help section.
 	function mumf_slider_help_section() 
 	{
@@ -200,8 +285,9 @@
 	function mumf_slider_meta_box() 
 	{
 		add_meta_box("mumf-slider-help", "Tips", 'mumf_slider_help_section', "mumf_slider", "normal");
-		add_meta_box("mumf-slider-featured-slider", "Featured Slider", 'mumf_view_slider_featured_box', "mumf_slider", "normal");
-	    add_meta_box("mumf-slider-images", "Slider Images", 'mumf_view_slider_images_box', "mumf_slider", "normal");	    
+		add_meta_box("mumf-slider-options", "Options", 'mumf_view_slider_slider_options', "mumf_slider", "normal");
+		add_meta_box("mumf-slider-featured-slider", "Featured Slider", 'mumf_view_slider_featured_box', "mumf_slider", "normal");		
+	    add_meta_box("mumf-slider-images", "Slider Images", 'mumf_view_slider_images_box', "mumf_slider", "normal");	  	      
 
 	}
 	/**************************************************************/
@@ -230,7 +316,27 @@
 			// Get the slider links.
 			$aLinks = (isset($_POST['gallery_link']) ? $_POST['gallery_link'] : '');	   
 			// Get the featured checkbox value.
-			$iFeatured = (isset($_POST['gallery_featured']) && $_POST['gallery_featured'] != '') ? $_POST['gallery_featured'] : 0;   					
+			$iFeatured = (isset($_POST['gallery_featured']) && $_POST['gallery_featured'] != '') ? $_POST['gallery_featured'] : 0;   		
+			
+			// Set array to hold options.
+			$aOptions = array();
+			// Set transition type.
+			$aOptions['transition'] = (isset($_POST['gallery_transition']) ? $_POST['gallery_transition'] : 'slide');		
+			// Set transition speed.
+			$aOptions['transitionSpeed'] = (isset($_POST['gallery_transition_speed']) && $_POST['gallery_transition_speed'] != '' ) ? $_POST['gallery_transition_speed'] * 1000 : 250;		
+			// Set rotate boolean.
+			$aOptions['autoRotate'] = (isset($_POST['gallery_auto_rotate']) && $_POST['gallery_auto_rotate'] != '') ? $_POST['gallery_auto_rotate'] : 0;  		
+			// Set rotate delay.
+			$aOptions['rotateDelay'] = (isset($_POST['gallery_rotate_delay']) && $_POST['gallery_rotate_delay'] != '' ) ? $_POST['gallery_rotate_delay'] * 1000 : 4000;	 					
+			// Set show navigation value.
+			$aOptions['showNavigation'] = (isset($_POST['gallery_show_navigation']) && $_POST['gallery_show_navigation'] != '') ? $_POST['gallery_show_navigation'] : 0;  
+			// Set navigation thumbnails value.
+			$aOptions['navigationThumbnails'] = (isset($_POST['gallery_navigation_thumbnails']) && $_POST['gallery_navigation_thumbnails'] != '') ? $_POST['gallery_navigation_thumbnails'] : 0;  
+			// Set pause on hover value.
+			$aOptions['pauseOnHover'] = (isset($_POST['gallery_hover_pause']) && $_POST['gallery_hover_pause'] != '') ? $_POST['gallery_hover_pause'] : 0;  			
+
+			// Convert options to JSON.
+			$sOptions = json_encode($aOptions);
 
 			// Create new array to hold combined data.
 			$aSlides = array();
@@ -268,7 +374,9 @@
 			// Update the post meta data for the slider images.
 			update_post_meta($post_id, "_mumf_gallery_images", $aSlides);
 			// Update the post meta data for the featured slider value.
-			update_post_meta($post_id, "_mumf_gallery_featured", $iFeatured);	       
+			update_post_meta($post_id, "_mumf_gallery_featured", $iFeatured);	 
+			// Update the post meta data for the slider options.
+			update_post_meta($post_id, "_mumf_gallery_options", $sOptions);	
 
 	    } else {
 
@@ -359,8 +467,11 @@
 		       </div>
 		    </div>';  				         	
 
+		// Get slider options from post meta, converting it from JSON into object.		
+		$aOptions = json_decode(get_post_meta($id, "_mumf_gallery_options", true));		    
 
-		do_action('mumf_slider_initiate');
+		// Perform action, passing the options array.
+		do_action('mumf_slider_initiate', $aOptions);
 
 	    return $html;
 
