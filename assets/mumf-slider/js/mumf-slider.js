@@ -17,8 +17,15 @@
 
             // Check to see if thumbnails exist.
             if (elem.find('.thumbnails').length > 0) { 
-                // Call function to set them up.
-                $.fn.mumfSlider.setupThumbnails(elem);
+                // If the options value has been turned off.
+                if (!elem.mumfSlider.navigationThumbnails) {
+                    // Remove the thumbnails element.
+                    elem.find('.thumbnails').remove();
+                // Otherwise.
+                } else {                    
+                    // Call function to set them up.
+                    $.fn.mumfSlider.setupThumbnails(elem);
+                }                                
             // Otherwise check if navigationThumbnails has been set.
             } else if (elem.mumfSlider.navigationThumbnails) {
                 // Call function to add default navigation thumbs.
@@ -107,7 +114,7 @@
                     $.fn.mumfSlider.slideNextSlide(slider);
                     // Call function to set active thumbnail.
                     $.fn.mumfSlider.setActiveThumbnail(slider);                        
-                    break;              
+                    break;
             }
             // END switch.            
         });
