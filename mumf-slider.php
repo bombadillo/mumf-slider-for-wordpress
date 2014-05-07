@@ -220,6 +220,19 @@
 	    // Get the featured slider value from the post data, convert from JSON into object.
 	    $aOptions = json_decode(get_post_meta($post->ID, "_mumf_gallery_options", true));
 
+	    // If there are no options, it must be a new post so let's make default options.
+	    if (!$aOptions) 
+	    {
+	    	$aOptions = new stdClass();
+	        $aOptions->transition = 'fade-concurrent';
+	        $aOptions->transitionSpeed = 500;
+	        $aOptions->autoRotate = true;
+	        $aOptions->rotateDelay = 4000;
+	        $aOptions->showNavigation = true;
+	        $aOptions->navigationThumbnails = true;
+	        $aOptions->pauseOnHover = true;	    
+	    }
+
 		// Determine whether autoRotate checkbox should be checked.
 		$sRotateChecked = $aOptions->autoRotate == 1 ? 'checked="checked"' : '';
 		// Determine whether showNavigation checkbox should be checked.
