@@ -10,6 +10,28 @@
 	display: none;
 }
 
+.mumf-slider td.image {
+  padding: 15px 10px;
+  width: 23%;
+}
+
+.mumf-slider td.image img {
+	background: none repeat scroll 0 0 #EDEDED;
+	border: 1px solid #F1F1F1;
+	padding: 5px;
+	width: 90%;
+	cursor: pointer;
+	border-radius: 10px;
+	-webkit-transition: background 0.1s ease-in;
+	   -moz-transition: background 0.1s ease-in;
+	     -o-transition: background 0.1s ease-in;
+	        transition: background 0.1s ease-in;    
+}
+
+.mumf-slider td.image img:hover {
+	background: none repeat scroll 0 0 #2EA2CC; 
+}
+
 /* Hide these */
 #titlediv {
 	margin-bottom: 10px;

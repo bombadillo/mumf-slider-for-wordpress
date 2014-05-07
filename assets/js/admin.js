@@ -7,6 +7,19 @@
     $(document).ready(function() {
         // Hide the options meta box.
         $('#mumf-slider-options, #mumf-slider-help').addClass('closed');
+
+        // Loop each image. 
+        $('.mumf-slider img').each(function() {
+            // Get the current image.
+            var image = $(this);
+
+            // If the source is blank, replace.
+            if (image.attr('src') === '') {
+                image.attr('src', '/wp-content/plugins/mumf-slider/assets/mumf-slider/themes/default/img/placeholder-image.png');
+            }
+            // END if.
+        });
+        // END loop.
     });
 
 	// Listen for check box changing.
@@ -40,7 +53,8 @@
         e.preventDefault();
 
         // Get the element clicked.
-        var imageInput = $(this);
+        var imageInput = $(this).next('input.mumf-slider-image-upload')
+        ,   image = $(this);
  
         //If the uploader object has already been created, reopen the dialog.
         if (custom_uploader) {
@@ -50,11 +64,13 @@
 	        custom_uploader.on('select', function() {
 	            attachment = custom_uploader.state().get('selection').first().toJSON();
 	            imageInput.val(attachment.url);
+                // Change the source of the image.
+                image.attr('src', attachment.url);
 	        });        	
             custom_uploader.open();
             // Return from function.
             return;
-        }
+        } 
 
         //Extend the wp.media object
         custom_uploader = wp.media.frames.file_frame = wp.media({
@@ -64,6 +80,14 @@
             },
             multiple: false
         });
+
+        // Listener for when an image is selected.
+        custom_uploader.on('select', function() {
+            attachment = custom_uploader.state().get('selection').first().toJSON();
+            imageInput.val(attachment.url);
+            // Change the source of the image.
+            image.attr('src', attachment.url);
+        });                 
  
         //Open the uploader dialog.
         custom_uploader.open();
@@ -77,6 +101,8 @@
 
 		// Remove the values of each input within the table row.
 		parentRow.find('input').val('');
+        // Replace the image src.
+        parentRow.find('img').attr('src', '/wp-content/plugins/mumf-slider/assets/mumf-slider/themes/default/img/placeholder-image.png');
 	});
 
 }(jQuery));

@@ -123,7 +123,10 @@
 	                <td><label for=\"Upload Images\">Slide 1</label></td>	                
 	                </tr>
 	                <tr>
-	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[0]->image . "\" placeholder=\"The image url\" /></td>	                
+	                <td class=\"image\">
+	                	<img src=\"" . $aSlides[0]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[0]->image . "\" placeholder=\"The image url\" /></td>	           
+
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[0]->link . "\" placeholder=\"The link url\" /></td>
 	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
@@ -131,7 +134,10 @@
 	                <td><label for=\"Upload Images\">Slide 2</label></td>
 	                </tr>
 	                <tr>
-	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[1]->image . "\" placeholder=\"The image url\" /></td>
+	                <td class=\"image\">
+	                	<img src=\"" . $aSlides[1]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[1]->image . "\" placeholder=\"The image url\" />
+	                </td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[1]->link . "\" placeholder=\"The link url\" /></td>
 	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
@@ -139,7 +145,10 @@
 	                <td><label for=\"Upload Images\">Slide 3</label></td>
 	                </tr>
 	                <tr>
-	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[2]->image . "\" placeholder=\"The image url\" /></td>
+	                <td class=\"image\">
+	                	<img src=\"" . $aSlides[2]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[2]->image . "\" placeholder=\"The image url\" />
+	                </td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[2]->link . "\" placeholder=\"The link url\" /></td>
 	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
@@ -147,7 +156,10 @@
 	                <td><label for=\"Upload Images\">Slide 4</label></td>
 	                </tr>
 	                <tr>
-	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[3]->image . "\" placeholder=\"The image url\" /></td>
+	                <td class=\"image\">
+	                	<img src=\"" . $aSlides[3]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[3]->image . "\" placeholder=\"The image url\" />
+	                </td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[3]->link . "\" placeholder=\"The link url\" /></td>
 	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
@@ -155,7 +167,10 @@
 	                <td><label for=\"Upload Images\">Slide 5</label></td>
 	                </tr>
 	                <tr>
-	                <td><input class=\"mumf-slider-image-upload\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[4]->image . "\" placeholder=\"The image url\" /></td>
+	                <td class=\"image\">
+	                	<img src=\"" . $aSlides[4]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[4]->image . "\" placeholder=\"The image url\" />
+	                </td>
 	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[4]->link . "\" placeholder=\"The link url\" /></td>
 	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
 	                </tr>
