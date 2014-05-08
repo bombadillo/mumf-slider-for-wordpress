@@ -32,6 +32,14 @@
 	background: none repeat scroll 0 0 #2EA2CC; 
 }
 
+.mumf-slider tr.slide-header td.title {
+	font-weight: bold;
+}
+
+.mumf-slider tr.slide-header td.buttons {
+	text-align: right;
+}
+
 /* Hide these */
 #titlediv {
 	margin-bottom: 10px;

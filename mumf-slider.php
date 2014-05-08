@@ -10,8 +10,8 @@
 	*/
 
 	// Initiate the plugin (get the script, styles, etc).
-	function mumf_slider_initiate ($aSliderOptions) {
-
+	function mumf_slider_initiate ($aSliderOptions) 
+	{
 		// Output some JavaScript so that we can define a global variable to hold our slider options.
 		?>
 
@@ -106,6 +106,8 @@
 	function mumf_view_slider_images_box()
 	{
 	    global $post;
+	    // Count for the loop.
+	    $iCount = 0;
 	    
 	    // Get the slider images from the post meta data.
 	    $aSlides = get_post_meta($post->ID, "_mumf_gallery_images", true);
@@ -116,67 +118,54 @@
 	    $html = '<input type="hidden" name="mumf_slider_box_nonce" value="' . wp_create_nonce(basename(__FILE__)) . '" />';
 	    
 	    $html .= '';
-	    $html .= "
-	                <table class=\"form-table mumf-slider\">
-	                <tbody>	 
-	                <tr>              
-	                <td><label for=\"Upload Images\">Slide 1</label></td>	                
-	                </tr>
-	                <tr>
-	                <td class=\"image\">
-	                	<img src=\"" . $aSlides[0]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
-	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[0]->image . "\" placeholder=\"The image url\" /></td>	           
+	    $html .= "<table class=\"form-table mumf-slider\">
+	             <tbody>
+	             <tr><td><a href=\"javascript:void(0)\" class=\"button button-primary mumf-slider-add-slide\">Add Slide</a></td></tr>";
 
-	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[0]->link . "\" placeholder=\"The link url\" /></td>
-	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
-	                </tr>
-	                <tr>
-	                <td><label for=\"Upload Images\">Slide 2</label></td>
-	                </tr>
-	                <tr>
-	                <td class=\"image\">
-	                	<img src=\"" . $aSlides[1]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
-	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[1]->image . "\" placeholder=\"The image url\" />
-	                </td>
-	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[1]->link . "\" placeholder=\"The link url\" /></td>
-	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
-	                </tr>
-	                <tr>
-	                <td><label for=\"Upload Images\">Slide 3</label></td>
-	                </tr>
-	                <tr>
-	                <td class=\"image\">
-	                	<img src=\"" . $aSlides[2]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
-	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[2]->image . "\" placeholder=\"The image url\" />
-	                </td>
-	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[2]->link . "\" placeholder=\"The link url\" /></td>
-	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
-	                </tr>
-	                <tr>
-	                <td><label for=\"Upload Images\">Slide 4</label></td>
-	                </tr>
-	                <tr>
-	                <td class=\"image\">
-	                	<img src=\"" . $aSlides[3]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
-	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[3]->image . "\" placeholder=\"The image url\" />
-	                </td>
-	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[3]->link . "\" placeholder=\"The link url\" /></td>
-	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
-	                </tr>
-	                <tr>
-	                <td><label for=\"Upload Images\">Slide 5</label></td>
-	                </tr>
-	                <tr>
-	                <td class=\"image\">
-	                	<img src=\"" . $aSlides[4]->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
-	                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $aSlides[4]->image . "\" placeholder=\"The image url\" />
-	                </td>
-	                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $aSlides[4]->link . "\" placeholder=\"The link url\" /></td>
-	                <td><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a></td>
-	                </tr>
-	                </tbody>
-	                </table>
-	    ";	    	    
+
+	    
+	    // If there are slides.
+	    if (count($aSlides) > 0) 
+	    {	    	
+			// Loop each of the slides.
+		    foreach ($aSlides as $slide) 
+		    {	    
+		    	// Increment the count.
+		    	$iCount++;
+
+		        $html .= "<tr class=\"slide-header\">              
+		                <td class=\"title\"><label for=\"Upload Images\">Slide ". $iCount ."</label></td>	                
+		                <td class=\"buttons\"><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a>
+		                <a href=\"javascript:void(0)\" class=\"button mumf-slider-delete-slide\">Delete Slide</a></td>      
+		                </tr>
+		                <tr>
+		                <td class=\"image\">
+		                	<img src=\"" . $slide->image . "\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+		                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"" . $slide->image . "\" placeholder=\"The image url\" /></td>	           
+		                <td><input type=\"text\" name=\"gallery_link[]\" value=\"" . $slide->link . "\" placeholder=\"The link url\" /></td>		                
+		                </tr>";
+		    }
+		    // END loop.
+		}
+		// Otherwise there are no slides.
+		else 
+		{
+
+		        $html .= "<tr class=\"slide-header\">              
+		                <td class=\"title\"><label for=\"Upload Images\">Slide 1</label></td>	         
+		                <td class=\"buttons\"><a href=\"javascript:void(0)\" class=\"button mumf-slider-clear-slide\">Clear Slide</a>    
+		                <a href=\"javascript:void(0)\" class=\"button mumf-slider-delete-slide\">Delete Slide</a></td>       
+		                </tr>
+		                <tr>
+		                <td class=\"image\">
+		                	<img src=\"\" alt=\"Slide Image\" class=\"mumf-slider-image-upload\" />
+		                	<input class=\"mumf-slider-image-upload ghost\" type=\"text\" name=\"gallery_img[]\" value=\"\" placeholder=\"The image url\" /></td>	           
+		                <td><input type=\"text\" name=\"gallery_link[]\" value=\"\" placeholder=\"The link url\" /></td>
+		                </tr>";			                		                		
+		}
+
+	    $html .= "  </tbody>
+	                </table>";	    
 	
 	    echo $html;
 	    
@@ -322,7 +311,8 @@
 	
 
 	// Saves the image data to the post meta data.
-	function mumf_save_slider_info($post_id) {
+	function mumf_save_slider_info($post_id) 
+	{
 
 	    // verify nonce
 	    if (!wp_verify_nonce($_POST['mumf_slider_box_nonce'], basename(__FILE__))) 
@@ -371,8 +361,12 @@
 			// Loop through each gallery image.
 			foreach($aImages as $key => $val)
 			{
-			// Create new index with array containing image and link.
-			$aSlides[$key] = array('image' => $aImages[$key], 'link' => $aLinks[$key]);
+				// If the image field is not empty.
+				if ($aImages[$key] != '')
+				{					
+					// Create new index with array containing image and link.
+					$aSlides[$key] = array('image' => $aImages[$key], 'link' => $aLinks[$key]);
+				}
 			}
 
 			$aSlides = strip_tags(json_encode($aSlides));
@@ -416,7 +410,8 @@
 	/**************************************************************/
 
 	// Function to display the slider.
-	function mumf_slider_display_slider($attr,$content) {
+	function mumf_slider_display_slider($attr,$content) 
+	{
 
 		// Import variables.
 	    extract(shortcode_atts(array('id' => ''), $attr));

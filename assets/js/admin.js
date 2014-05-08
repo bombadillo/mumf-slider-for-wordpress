@@ -97,12 +97,59 @@
 	$(document).on('click', '.mumf-slider-clear-slide', function(e) {
 		// Get the clicked element, closest table row.
 		var el = $(e.currentTarget)
-		,   parentRow = el.closest('tr');
+		,   parentRow = el.closest('tr').next('tr');
 
 		// Remove the values of each input within the table row.
 		parentRow.find('input').val('');
         // Replace the image src.
         parentRow.find('img').attr('src', '/wp-content/plugins/mumf-slider/assets/mumf-slider/themes/default/img/placeholder-image.png');
 	});
+
+    // Listen for clear-slide button being clicked.
+    $(document).on('click', '.mumf-slider-delete-slide', function(e) {
+        // Get the clicked element, closest table row and the previous one (the slide title row).
+        var el = $(e.currentTarget)
+        ,   parentRow = el.closest('tr')
+        ,   sliderRow = parentRow.next();
+
+        // Fadeout the rows and then remove them.
+        parentRow.fadeOut('fast', function() {
+            parentRow.remove();
+            sliderRow.remove();
+        });        
+        sliderRow.fadeOut();        
+
+    });    
+
+    // Listen for clear-slide button being clicked.
+    $(document).on('click', '.mumf-slider-add-slide', function(e) {
+        // Get the clicked element, closest table body, slide image count.
+        var el = $(e.currentTarget)
+        ,   parentTableBody = el.closest('tbody')
+        ,   html = ''
+        ,   slideNumber = parentTableBody.find('.image').length + 1;
+
+        // Define HTML.
+        html = '<tr class="slide-header ghost new-row">'+
+                    '<td class="title"><label for="Upload Images">Slide '+ slideNumber +'</label></td>'+
+                    '<td class="buttons"><a href="javascript:void(0)" class="button mumf-slider-clear-slide">Clear Slide</a>'+
+                    '<a href="javascript:void(0)" class="button mumf-slider-delete-slide">Delete Slide</a></td>'+
+                '</tr>'+
+                '<tr class="ghost new-row">'+
+                    '<td class="image">'+
+                        '<img src="/wp-content/plugins/mumf-slider/assets/mumf-slider/themes/default/img/placeholder-image.png" alt="Slide Image" class="mumf-slider-image-upload" />'+
+                        '<input class="mumf-slider-image-upload ghost" type="text" name="gallery_img[]" value="" placeholder="The image url" /></td>'+
+                    '<td><input type="text" name="gallery_link[]" value="" placeholder="The link url" /></td>'+
+                '</tr>';
+
+        // Append html to table body.
+        parentTableBody.append(html);
+
+        // Find the element.
+        parentTableBody.find('.ghost.new-row').fadeIn('fast', function (){
+            // Remove the classes. 
+            $('.ghost.new-row').removeClass('ghost new-row');
+        });
+    });
 
 }(jQuery));
