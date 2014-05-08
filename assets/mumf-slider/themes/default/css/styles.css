@@ -116,6 +116,7 @@
 	display: inline-block;	
 	padding: 0 5px;
 	cursor: pointer;
+	max-width: 200px;
 }
 
 .mumf-slider .thumbnails > ul > li.default {
