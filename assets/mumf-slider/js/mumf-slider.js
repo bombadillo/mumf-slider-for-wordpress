@@ -197,6 +197,12 @@
                 // Add the class so that the CSS classes kick in.
                 slider.addClass('concurrent-fade');
                 break;
+
+            // Multiple images.
+            case 'multiple-images':
+                // Set ul CSS attributes.
+                slider.find('ul:first').css({ 'overflow': 'hidden', 'white-space': 'nowrap' });
+                break;
         }
     };
 
@@ -242,6 +248,9 @@
 
         // Get the current slide.
         var currentSlide = slider.find('ul:first li.active');
+
+        // Set the sliders current direction global variable.
+        slider.mumfSlider.currentDirection = direction;
 
         // Set global variables to defaults.                        
         slider.mumfSlider.isFirstSlide = false;
@@ -303,7 +312,11 @@
             case 'slide':
                 // Call function to fade next slide.
                 $.fn.mumfSlider.slideNextSlide(slider);
-                break;              
+                break;     
+            case 'multiple-images':
+                // Call function to move slider based on the number of images.
+                $.fn.mumfSlider.moveSliderNImages(slider);
+                break;         
         }
         // END switch.    
 
@@ -327,6 +340,7 @@
 
         // If there's a current active.
         if (slider.mumfSlider.loaded) {
+
             // Fade out the current active slide.
             currentActive.fadeOut(slider.mumfSlider.transitionSpeed, function() {
                 // Fade in the slide and add active class.
@@ -365,7 +379,7 @@
 
             // Fade out the current active slide.
             currentActive.fadeOut(slider.mumfSlider.transitionSpeed);
-console.log(slider.mumfSlider.transitionSpeed)
+
             // Fade in the slide and add active class.
             slider.mumfSlider.nextSlide.fadeIn(slider.mumfSlider.transitionSpeed)
                             .addClass('active');  
@@ -430,6 +444,118 @@ console.log(slider.mumfSlider.transitionSpeed)
         $.fn.mumfSlider.resizeSliderContainer(slider); 
     };
 
+    /* Name      moveSliderNImages
+     * Purpose   To slide the slider n pages.
+     * Params    slider      The slider to move the images for.
+    */ 
+    $.fn.mumfSlider.moveSliderNImages = function (slider) {
+
+
+        // If the slider has not loaded.
+        if (!slider.mumfSlider.loaded) {
+            // Slide down the element.
+            slider.find('ul:first').slideDown(200, function () {
+                // Get the number of images, the slider parent ul, the slider parent ul width, calculate slide width.
+                var numImages = slider.mumfSlider.imagesPerSlide
+                ,   sliderUl = slider.find('ul:first')
+                ,   sliderWidth = sliderUl.width()
+                ,   slideWidth = sliderWidth / numImages;  
+           
+                // Set li attributes. 
+                slider.find('li.slide').css({ 'width': slideWidth +'px', 'display': 'inline-block' });   
+
+                // Call function to resize container.
+                $.fn.mumfSlider.resizeSliderContainer(slider);       
+
+                // Set the active slide as the last slide (based on imagesPerSlide).       
+                slider.find('li.slide:eq('+ (slider.mumfSlider.imagesPerSlide - 1) +')').addClass('active');
+
+                // Animate the scroll using scrollDistance.
+                slider.find('ul:first').animate({ scrollLeft: 0 }, slider.mumfSlider.transitionSpeed);                   
+            });
+
+            // Prevent further execution.
+            return false;
+        }
+        // END if not loaded.  
+
+        // If the direction is next.
+        if (slider.mumfSlider.currentDirection === 'next') {
+            // Get the current index, count of all slides.
+            var currentIndex = slider.find('li.slide.active').index()
+            ,   slideCount = slider.find('li.slide').length
+            ,   remainingSlides = slideCount - (currentIndex + 1);
+
+            // If there are more slides or equal slides to the imagesPerSlide variable.
+            if (remainingSlides >= slider.mumfSlider.imagesPerSlide) {                
+                // Remove all instances of active class.
+                slider.find('li.active').removeClass('active');                
+                // Get the width of a li.slide and multiply by next index.
+                scrollDistance = slider.find('ul:first li:first').width() * slider.mumfSlider.imagesPerSlide;       
+                // Animate the scroll using scrollDistance.
+                slider.find('ul:first').animate({ scrollLeft: scrollDistance }, slider.mumfSlider.transitionSpeed);   
+                // Set the active slide as the last slide within the current frame.       
+                slider.find('li.slide:eq('+ (+slider.mumfSlider.imagesPerSlide + +currentIndex) +')').addClass('active');                
+            } else if (remainingSlides > 0) {
+                // Remove all instances of active class.
+                slider.find('li.active').removeClass('active');                
+                // Get the width of a li.slide and multiply by next index.
+                scrollDistance = slider.find('ul:first li:first').width() * remainingSlides;    
+                // Get the current scroll distance. 
+                scrollDistance += slider.find('ul:first').scrollLeft();
+                // Animate the scroll using scrollDistance.
+                slider.find('ul:first').animate({ scrollLeft: scrollDistance }, slider.mumfSlider.transitionSpeed);    
+                // Set the active slide as the last slide within the current frame.       
+                slider.find('li.slide:eq('+ (+currentIndex + +remainingSlides) +')').addClass('active');                 
+            }
+
+        } else {
+            // Get the current active slide, current index, previous slides, newIndex for later.
+            var currentActive = slider.find('li.slide.active')
+            ,   currentIndex = currentActive.index()
+            ,   remainingSlides = currentActive.prevAll().length
+            ,   newIndex = undefined;
+
+            // If there are more slides or equal slides to the imagesPerSlide variable.
+            if (remainingSlides >= slider.mumfSlider.imagesPerSlide) {
+                // Remove all instances of active class.
+                slider.find('li.active').removeClass('active');                
+                // Get the width of a li.slide and multiply by next index.
+                scrollDistance = slider.find('ul:first li:first').width() * slider.mumfSlider.imagesPerSlide;     
+                // Get the current scroll distance. 
+                scrollDistance -= slider.find('ul:first').scrollLeft();                  
+                // Animate the scroll using scrollDistance.
+                slider.find('ul:first').animate({ scrollLeft: - scrollDistance }, slider.mumfSlider.transitionSpeed); 
+
+                // Set the new index.
+                newIndex = +currentIndex - +slider.mumfSlider.imagesPerSlide;
+
+                // If the new index = 0, set it to imagesPerSlide.
+                if (newIndex === 0) newIndex = slider.mumfSlider.imagesPerSlide -1;
+
+                // Set the active slide as the last slide within the current frame.       
+                slider.find('li.slide:eq('+ (newIndex) +')').addClass('active');                
+            } else if (remainingSlides > 0) {
+                // If the index minus the remaining slides is <= 0.
+                if ((currentIndex) - remainingSlides <= 0) return false;                
+                // Remove all instances of active class.
+                slider.find('li.active').removeClass('active');                
+                // Get the width of a li.slide and multiply by next index.
+                scrollDistance = slider.find('ul:first li:first').width() * remainingSlides;    
+                // Get the current scroll distance. 
+                scrollDistance -= slider.find('ul:first').scrollLeft();
+                // Animate the scroll using scrollDistance.
+                slider.find('ul:first').animate({ scrollLeft: - scrollDistance }, slider.mumfSlider.transitionSpeed);    
+                // Set the active slide as the last slide within the current frame.       
+                slider.find('li.slide:eq('+ (+currentIndex - +remainingSlides) +')').addClass('active');                 
+            }
+            // END if.
+
+        }
+        // END if.
+
+    };
+
     /* Name      setActiveThumbnail
      * Purpose   To set the active thumbnail
      * Params    slider      The slider to change the slide for.
@@ -456,8 +582,28 @@ console.log(slider.mumfSlider.transitionSpeed)
             slider.find('ul:first').slideDown(200);
         }
 
-        // Get the height of the current slide.
-        var height = slider.find('ul:first li.active').height();
+        // Switch the transition type.
+        switch (slider.mumfSlider.transition) {
+
+            case 'multiple-images': 
+                var height=0; // the height of the highest element (after the function runs)
+                var t_elem;  // the highest element (after the function runs)
+                $(slider.find('ul:first li')).each(function () {
+                    $this = $(this);
+                    if ( $this.outerHeight() > height ) {
+                        t_elem=this;
+                        height=$this.outerHeight();
+                    }
+                });            
+                break;
+
+            default: 
+                // Get the height of the current slide.
+                var height = slider.find('ul:first li.active').height();
+                break;
+        }
+        // END switch.
+
         // Animate the slider container to the height.
         slider.find('ul:first').animate({height: height +'px'});
 

@@ -220,6 +220,7 @@
 	        $aOptions->showNavigation = true;
 	        $aOptions->navigationThumbnails = true;
 	        $aOptions->pauseOnHover = true;	    
+	        $aOptions->imagesPerSlide = true;	    
 	    }
 
 		// Determine whether autoRotate checkbox should be checked.
@@ -241,6 +242,7 @@
 							<option value=\"slide\" ". (($aOptions->transition == 'slide') ? 'selected' : '') .">Slide</option>
 							<option value=\"fade\" ". (($aOptions->transition == 'fade') ? 'selected' : '') .">Fade</option>
 							<option value=\"fade-concurrent\" ". (($aOptions->transition == 'fade-concurrent')? 'selected' : '') .">Fade concurrent</option>
+							<option value=\"multiple-images\" ". (($aOptions->transition == 'multiple-images') ? 'selected' : '') .">Multiple Images</option>
 	                	</select>
 	                </td>
 	                </tr>
@@ -267,7 +269,11 @@
 	                <tr>
 	                <td><label for=\"mumf-slider-gallery-hover-pause\">Pause Rotation on Mouse Hover</label></td>
 	                <td><input id=\"mumf-slider-gallery-hover-pause\" type=\"checkbox\" name=\"gallery_hover_pause\" value=\"". $aOptions->pauseOnHover ."\" ". $sPauseOnHoverChecked ." /></td>
-	                </tr>		                	                                                         	                
+	                </tr>	
+	                <tr>
+	                <td><label for=\"mumf-slider-gallery-hover-pause\">Images per Slide</label></td>
+	                <td><input id=\"mumf-slider-gallery-images-per-slide\" type=\"text\" name=\"gallery_images_per_slide\" value=\"". $aOptions->imagesPerSlide ."\" /></td>
+	                </tr>		                	                	                                                         	                
 	                </tbody>
 	                </table>
 	    ";
@@ -351,7 +357,9 @@
 			// Set navigation thumbnails value.
 			$aOptions['navigationThumbnails'] = (isset($_POST['gallery_navigation_thumbnails']) && $_POST['gallery_navigation_thumbnails'] != '') ? $_POST['gallery_navigation_thumbnails'] : 0;  
 			// Set pause on hover value.
-			$aOptions['pauseOnHover'] = (isset($_POST['gallery_hover_pause']) && $_POST['gallery_hover_pause'] != '') ? $_POST['gallery_hover_pause'] : 0;  			
+			$aOptions['pauseOnHover'] = (isset($_POST['gallery_hover_pause']) && $_POST['gallery_hover_pause'] != '') ? $_POST['gallery_hover_pause'] : 0;  	
+			// Set images per slide value.
+			$aOptions['imagesPerSlide'] = (isset($_POST['gallery_images_per_slide']) && $_POST['gallery_images_per_slide'] != '') ? $_POST['gallery_images_per_slide'] : 1;  					
 
 			// Convert options to JSON.
 			$sOptions = json_encode($aOptions);
